@@ -5,6 +5,7 @@
     <title>Socket.IO chat</title>
     <style>
         body {
+            background-image: url('./record-label.jpg');
             margin: 0;
             padding-bottom: 3rem;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -58,38 +59,119 @@
         #messages>li:nth-child(odd) {
             background: #efefef;
         }
+
+        h2 {
+            text-align: center;
+        }
+
+        .chat {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .chat li {
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px dotted #B3A9A9;
+        }
+
+        .chat li.left .chat-body {
+            margin-left: 60px;
+        }
+
+        .chat li.right .chat-body {
+            margin-right: 60px;
+        }
+
+
+        .chat li .chat-body p {
+            margin: 0;
+            color: #777777;
+        }
+
+        .panel .slidedown .glyphicon,
+        .chat .glyphicon {
+            margin-right: 5px;
+        }
+
+        .panel-body {
+            overflow-y: scroll;
+            height: 250px;
+        }
+
+        ::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+            background-color: #F5F5F5;
+        }
+
+        ::-webkit-scrollbar {
+            width: 12px;
+            background-color: #F5F5F5;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+            background-color: #555;
+        }
     </style>
 </head>
 
 <body>
-    <ul id="messages"></ul>
-    <form id="form" action="">
-        <input id="input" autocomplete="off" /><button>Send</button>
-    </form>
-    <script src="/socket.io/socket.io.js"></script>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <span class="glyphicon glyphicon-comment"></span> Chat
+                        <div class="btn-group pull-right">
+                            <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                                <span class="glyphicon glyphicon-chevron-down"></span>
+                            </button>
+                            <ul class="dropdown-menu slidedown">
+                                <li><a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-refresh">
+                                        </span>Refresh</a></li>
+                                <li><a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-ok-sign">
+                                        </span>Available</a></li>
+                                <li><a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-remove">
+                                        </span>Busy</a></li>
+                                <li><a href="http://www.jquery2dotnet.com"><span
+                                            class="glyphicon glyphicon-time"></span>
+                                        Away</a></li>
+                                <li class="divider"></li>
+                                <li><a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-off"></span>
+                                        Sign Out</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <ul id="messages"></ul>
+                    <form id="form">
+                        <input id="input" autocomplete="off" /><button>Send</button>
+                    </form>
+                    <script src="/socket.io/socket.io.js"></script>
 
-    <script>
-        var socket = io();
+                    <script>
+                        var socket = io();
 
-        var messages = document.getElementById('messages');
-        var form = document.getElementById('form');
-        var input = document.getElementById('input');
+                        var messages = document.getElementById('messages');
+                        var form = document.getElementById('form');
+                        var input = document.getElementById('input');
 
-        form.addEventListener('submit', function (e) {
-            e.preventDefault();
-            if (input.value) {
-                socket.emit('chat message', input.value);
-                input.value = '';
-            }
-        });
+                        form.addEventListener('submit', function (e) {
+                            e.preventDefault();
+                            if (input.value) {
+                                socket.emit('chat message', input.value);
+                                input.value = '';
+                            }
+                        });
 
-        socket.on('chat message', function (msg) {
-            var item = document.createElement('li');
-            item.textContent = msg;
-            messages.appendChild(item);
-            window.scrollTo(0, document.body.scrollHeight);
-        });
-    </script>
+                        socket.on('chat message', function (msg) {
+                            var item = document.createElement('li');
+                            item.textContent = msg;
+                            messages.appendChild(item);
+                            window.scrollTo(0, document.body.scrollHeight);
+                        });
+                    </script>
 </body>
 
 </html>
